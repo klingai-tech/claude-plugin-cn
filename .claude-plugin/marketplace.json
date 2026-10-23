@@ -1,0 +1,14 @@
+{
+  "name": "klingai-cn",
+  "description": "Kling AI China plugin for Claude",
+  "owner": {
+    "name": "KLING AI Pte Ltd"
+  },
+  "plugins": [
+    {
+      "name": "kling-ai-cn",
+      "source": "./",
+      "description": "Kling AI CN connects Claude to the China service. Turn ideas into images and videos with Kling AI in Claude. Create from text or reference images, apply motion control, reuse subjects from your Elements library, and track generation progress—all through natural language."
+    }
+  ]
+}
