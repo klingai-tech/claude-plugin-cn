@@ -148,3 +148,12 @@ This package's instructions target Claude Code. Its authentication flow,
 uploads, and result presentation have not been validated on the other
 surfaces. Do not assume Claude Code commands such as `/mcp` apply there; use
 the target host's native plugin and connector controls.
+
+## China service policies and data flow
+
+- [Privacy policy](https://klingai.com/docs/privacy-policy)
+- [User service agreement and support contacts](https://klingai.com/docs/user-policy)
+
+The plugin connects to the declared China MCP server at `https://klingai.com/mcp/plugin`. Prompts and reference media are sent to Kling AI for processing. When the server returns an upload ticket, the host sends the selected file and ticket directly to the provider-supplied upload URL; this is an additional HTTP upload step outside the MCP transport. Do not log the ticket or signed URL.
+
+Image and video generation consumes Kling AI credits. The bundled skills do not implement checkout, payment, or credit purchases. Refer to the China service policies for account, content storage, deletion, and paid-service terms. The privacy policy does not specify a fixed retention period for data received from Claude.
