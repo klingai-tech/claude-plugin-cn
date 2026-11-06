@@ -1,11 +1,19 @@
 ---
 name: kling-ai-generate-image
-description: Generate or edit images through the Kling AI MCP in Claude Code. Use for text-to-image, image-to-image, posters, product photography, portraits, covers, advertising stills, visual concepts, and controlled variants.
+description: Write or refine Kling AI image prompts, including prompt-only requests, or generate and edit images through the Kling AI MCP in Claude Code. Use for posters, product photography, portraits, covers, advertising stills, visual concepts, and controlled variants.
 ---
 
 # Kling AI image generation
 
-Turn the creative request into one precise, user-confirmed remote image generation. Follow the Claude Code OAuth, billing confirmation, single-submission, status, and result rules in the [core Kling Skill](../kling-ai/SKILL.md).
+For prompt-only work, use the relevant creative references below and return the
+requested prompt. Preserve composition requirements such as left-side copy space.
+Leave out account queries, uploads, unsolicited submission settings, and invitations
+to generate.
+
+Use the workflow and quality defaults only when preparing or submitting generation.
+If a required image is missing, request it and explain its role before starting
+discovery. Follow the [core Kling Skill](../kling-ai/SKILL.md) for OAuth, billing,
+submission, and results.
 
 Read [prompt construction](references/prompt-construction.md) for reference images, exact copy, branded assets, or controlled variants. Read [scene patterns](references/scene-patterns.md) for product, advertising, portrait, poster, or cover work. For Element reuse or local media, also read the core [asset workflows](../kling-ai/references/asset-workflows.md).
 
