@@ -12,12 +12,21 @@ For an authorization failure, use `/mcp`, select the plugin's Kling server, and 
 
 OAuth discovery and client registration belong to the host. Do not require a custom client name or try to add one to generation arguments, headers, or the MCP URL. If the server rejects the host's registration, preserve the sanitized error for the service maintainer instead of guessing metadata or requesting credentials in chat.
 
-## Upload fails
+## Upload or media reference fails
 
 - Read the live `file_upload` schema and [asset workflow](asset-workflows.md).
 - A ticket is only the first step. Complete the multipart upload with `ticket` and binary `file`, then use the confirmed media URL.
 - Reuse the objective's `taskTraceId` where accepted. Never send local paths or expired signed URLs as remote media inputs.
 - If upload is unavailable or fails, stop before dependent Element writes or generation. Do not silently switch to text-only generation or loop on upload requests.
+- For invalid media or a signature error, verify the full URL from the successful upload response and the exact input slot. If the problem occurred before any generation call, fix the reference and complete the approved first submission.
+- If the service says to retry with the same generation ID, query only a `generationId` confirmed for this submission. An upload ID, source work ID, or ID from another step cannot identify this task. If the submission did not yield a confirmed ID, report that creation and billing are unconfirmed, retain `taskTraceId`, and pause.
+- When diagnosing a changed URL, compare the upload response, the reference provided to the model, the tool-call arguments, and the actual Claude Code MCP request where available. Record only redacted URL summaries and query parameter names, and identify any missing evidence. A resource error alone does not identify where the URL changed.
+
+## Parameter or resolution rejected
+
+- Check the submitted top-level `model` for omission, null, empty, or whitespace-only values. Compare the required `arguments[]`, including `prompt` when required, and the exact required `inputs[]` slots against the selected model. For example, `image_1` and `first_image` are separate slots.
+- For a resolution rejection, including on image-to-video Flash models, refresh `who_am_i` and compare the actual submitted value with the field, enum, and applicable conditions for the same account, connection, tool, and model. If the value matches and is still rejected, retain the trace ID and sanitized fields for the service maintainer. Ask the user to choose if their requested specification is unavailable.
+- To locate a missing or changed field, compare the model's tool-call arguments with Claude Code's outbound MCP arguments and the same turn's schema `required` list where available. Preserve the original prompt, mode, and reference roles. Correct the rejected field only and follow the core approval rule before any new submission.
 
 ## Model capability mismatch
 
@@ -35,15 +44,21 @@ If the mismatch remains, report that the current connection did not return the r
 
 ## Task is still running or the result App does not render
 
-If the generation MCP App is mounted, let it refresh internally. Otherwise use headless `query_tasks` at the provider-permitted interval until terminal, cancellation, or the turn cannot continue. A direct status request queries once. Keep the task number for later follow-up.
+Follow [generation and results](../SKILL.md#generation-and-results) for App refresh and headless queries. If the user says a video or image did not appear, query the known task once. If refresh fails, report the task number and its last confirmed state.
 
 A rendering problem is not a generation failure. Preserve the tool result and use its text fallback and at most one primary result link. Do not register a local MCP server, embed duplicate media, or claim that an unmounted App was displayed. Report success only after terminal success with usable primary media; a cover image is not the video.
 
 ## Submission fails or times out
 
-Do not retry generation. If a `generationId` is known, query it once. Otherwise report that creation and billing state are unknown: the current MCP cannot list account history or find a task by `taskTraceId`. Any new generation needs fresh explicit authorization.
+Do not retry generation automatically. If a `generationId` is known, query it once. If no task number is known and the service did not confirm whether it created a task or charged credits, report the unknown state and keep the trace ID for troubleshooting. The current MCP cannot find a task by `taskTraceId`. Any new attempt needs fresh explicit authorization.
 
-For a provider failure, return the provider message and preserve task IDs. For unsupported arguments, refresh the live schema, revise the rejected settings, and obtain confirmation before any new generation.
+For a provider failure, return the sanitized message and preserve task IDs. Treat a generic “service temporarily unavailable” message as a service error even if its outer code is `InvalidParameter`. Use parameter troubleshooting when the response identifies a field.
+
+## Insufficient credits, queue full, or rate limited
+
+- For insufficient credits, use the current balance from `query_membership_and_credits` and the service response. Monthly plan credits do not establish the balance. Follow [resuming a paused generation](tool-workflows.md#resuming-a-paused-generation) and report the actual submission state.
+- For a full generation queue, retain the request settings and known task number. Report whether the request was rejected, queued, or remains unconfirmed based on the service response. Follow the same resume workflow if the user asks to continue.
+- If a status query is rate limited, stop querying this turn and report the last confirmed state and task number.
 
 ## Result link expired
 

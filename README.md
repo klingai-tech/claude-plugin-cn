@@ -107,6 +107,12 @@ Library queries and uploads do not authorize generation. They discover the
 live tool schemas at runtime and let the host render any MCP App resource
 returned by the remote server.
 
+Claude checks the current balance before submitting. If credits are
+insufficient, top up the same China account on the Kling AI website and say
+“Continue the previous generation” in the same conversation. Claude checks
+the original task first if it has a task number. If a new submission is
+eligible, Claude rechecks the balance and resumes with the approved settings.
+
 Generation sends the prompt, selected settings, and reference media URLs or
 Element IDs to Kling. Local reference files are uploaded only when needed
 through the upload flow returned by Kling. Generation and asset storage run

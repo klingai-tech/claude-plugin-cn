@@ -17,7 +17,8 @@ Use only the remote China MCP configured by this plugin: `https://klingai.com/mc
 - Motion library: browse with `motion_library_list`. Resolve the selected motion, then follow the video Skill for `motion_control` with a subject image and exactly one motion source.
 - Subject library / Elements: use `element_list`, `element_get`, `element_create`, `element_update`, or `element_delete` for the requested operation. Resolve real IDs before reuse.
 - Account and credits: use `query_membership_and_credits`; model capabilities come from `who_am_i`.
-- Existing tasks: use `query_tasks` with a known `generationId`. A status or library request never creates a generation.
+- Existing tasks or missing results: use [generation and results](#generation-and-results) with the known `generationId` for that submission. A status or library request never creates a generation.
+- To continue after topping up or a queue rejection, follow [resuming a paused generation](references/tool-workflows.md#resuming-a-paused-generation) before preparing a submission. A top-up notification by itself calls for a balance check only.
 - Sign-out or account switching: act only on an explicit user request, stay on the China endpoint, and complete native Claude Code OAuth before further Kling calls.
 
 Call only tools present in the live tool list. An attachment alone does not determine its role; clarify only when first frame, tail frame, identity/product reference, editable source, motion source, or style reference would materially change the request.
@@ -42,11 +43,11 @@ Read [asset workflows](references/asset-workflows.md) for Elements, the motion l
 ## Generation and results
 
 1. Resolve reference roles, Elements, and motion sources; prepare local media before submission. Use the returned provider references exactly as the selected live schema requires.
-2. Confirm the final billable settings, then call the chosen generation tool once. A multi-shot plan remains one task unless the user approves separate tasks.
+2. Follow [tool workflows](references/tool-workflows.md#generation) to confirm the final billable settings, validate the request, check the balance on the same connection, and submit once. A multi-shot plan remains one task unless the user approves separate tasks.
 3. Once `generationId` is known, use only `query_tasks` for follow-up and keep the ID even if a later query omits it. If an ambiguous submission yields no ID, report the observed error or incomplete response and the unknown creation and billing state, then stop. `query_tasks` requires the ID. A trace ID, unchanged balance, or absent history entry cannot resolve that state.
-4. If Claude Code renders the generation MCP App, let that App own task refresh. Do not poll the same task from the model or add duplicate media, thumbnails, or download links.
-5. If no App renders, query at the provider-permitted interval until terminal, cancelled, or the turn cannot continue. Report the actual state and task number, with the tool's text fallback and at most one primary result link. Do not add Markdown image/video embeds or claim an unmounted App was displayed.
-6. For an explicit status request, query once and report the current state; do not start a long polling loop.
+4. If Claude Code renders the generation MCP App and it can refresh, let the App own automatic refresh. Do not add duplicate media, thumbnails, or download links.
+5. If the App is absent or cannot refresh, query the same task at the provider-permitted interval until terminal, cancelled, rate limited, interrupted, or a query fails. During polling, if a resource error explicitly says to check the same task later, retry that status query once at the permitted interval. Return the tool's text fallback and at most one primary result link. Do not add Markdown image/video embeds or claim an unmounted App was displayed.
+6. For an explicit status request or a report that the result is missing, query the original task once and report its state and any usable result. When a query fails or polling stops before completion, keep the task number, label the last confirmed state (such as accepted or processing), and explain that the current state could not be confirmed. Use “status unconfirmed” if no state was ever confirmed.
 7. Claim completion only after terminal success with usable primary media. If work-level status exists it must also be successful; a video cover alone is not a completed video.
 
 Report the returned status, known task number, and effective submitted settings when available. State the actual credit charge only if the tool returns it, for example in `creditsConsumed`.
@@ -64,6 +65,7 @@ Apply only when the user has not specified another choice and the live model sup
 ## Failure behavior
 
 - Unauthorized: use native Claude Code OAuth and continue only after authorization succeeds.
-- Unsupported argument: refresh the live definitions, revise only unsupported settings, and obtain confirmation before a new generation.
-- Insufficient credits or provider failure: report the provider message and preserve the task number; do not resubmit.
+- Unsupported argument or invalid media: follow [troubleshooting](references/troubleshooting.md) to verify the request and locate the original task before considering a new submission.
+- Insufficient credits: preserve the original settings and submission state and follow [resuming a paused generation](references/tool-workflows.md#resuming-a-paused-generation).
+- Provider failure: report the sanitized provider message and preserve the task number. Do not resubmit automatically.
 - Expired media URL: query the original `generationId` for current outputs before reuse. A failed refresh is not permission to create a replacement task.

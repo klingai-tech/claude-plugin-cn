@@ -19,14 +19,16 @@ Read [prompt construction](references/prompt-construction.md) for reference imag
 
 ## Workflow
 
+For a request to continue after a top-up, start with [resuming a paused generation](../kling-ai/references/tool-workflows.md#resuming-a-paused-generation). Query a known task for the original submission before checking credits or preparing another request.
+
 1. Use `text_to_image` for a new image. Use `image_to_image` when source media controls identity, product structure, composition, editable content, or style. An attachment alone does not determine the mode.
 2. Ask only for missing information that materially changes the result: subject, destination and aspect ratio, required copy, reference roles, protected facts, or output count.
 3. Create or reuse the UUIDv7 `taskTraceId` for this objective, follow [capability discovery](../kling-ai/references/capability-discovery.md), and select a compatible tool/model pair from this account's `who_am_i` response. Apply [model parameters](../kling-ai/references/model-parameters.md) before constructing arguments or reference bindings.
-4. Upload local images first and use only the live input names and returned URLs. Never silently degrade to text-to-image after an upload failure.
+4. Prepare the reference images. Reuse valid original references on continuation and refresh expired ones. Bind the exact returned URL to each live required slot, including `image_1` when declared, and use the schema's exact `inputType` literal. Never silently degrade to text-to-image after an upload failure.
 5. Build one prompt covering subject, action, environment, composition, lighting, color, materials, camera language, protected facts, and necessary exclusions.
 6. Show the final mode, model, prompt summary, resolution, aspect ratio, output count, and reference roles. Obtain explicit approval under the core Skill's billing rule; honor an existing explicit authorization for the final settings.
-7. Call the image generation tool exactly once and preserve the task number. If its MCP App mounts, let that one App self-refresh and do not call `query_tasks` from the model. If no App mounts, follow the core Skill's headless polling fallback; never resubmit.
-8. When Claude Code renders the MCP App, do not add Markdown media or duplicate links. When no App is rendered, provide one primary image link.
+7. Follow the [submission workflow](../kling-ai/references/tool-workflows.md#generation). Check the top-level model and required arguments and inputs, then call `query_membership_and_credits` on the same connection immediately before `text_to_image` or `image_to_image`. If the balance is unavailable, nonpositive, or explicitly insufficient, preserve the request and pause submission.
+8. Once approved and the balance check permits it, submit once and follow the core Skill's [generation and results](../kling-ai/SKILL.md#generation-and-results). If image-to-image returns a resource error, follow [upload troubleshooting](../kling-ai/references/troubleshooting.md#upload-or-media-reference-fails) and keep the source image task ID separate from the current submission's task ID.
 
 ## Mode rules
 
