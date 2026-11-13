@@ -9,7 +9,18 @@ First follow [capability discovery](../../kling-ai/references/capability-discove
 | No compatible V4 model is returned | If the user permits other models, select a compatible live default. If the user requires V4, stop and report that no eligible pair was returned; do not offer an excluded model. |
 | Discovery failed or the requested model/capability is unavailable | Resolve the discovery failure or explain the current limitation. Do not silently use an older model, remove references, or generate to test availability. |
 
-Recommend V4 for video generation when the user has not specified a model and live discovery returns a compatible V4 model. Use V4 Flash when speed or credit savings are prioritized and its live capabilities fit. Say "Recommended: V4", without describing it as "the latest model". User-specified available models take precedence. Select quality/speed variants using actual descriptions, and use real billing information for budget choices. Do not raise resolution or output count merely because V4 is available.
+When the user leaves the model open, recommend Kling 4.0 for standard delivery when live discovery returns a compatible pair. Prefer Kling 4.0 Flash when speed or credit savings are prioritized and its live capabilities fit. User-specified available models take precedence. Match the full requested variant using the canonical names and aliases returned for the current account, and use the matched model's name in the recommendation. Use real billing information for budget choices. Do not raise resolution or output count merely because a 4.0 model is available.
+
+## Kling 4.0 and Kling 4.0 Flash
+
+Both variants support text-to-video. Use the current account's live model declarations to confirm the applicable limits, frame roles, and reference slots.
+
+| Model | Image-to-video frame roles | Omni reference inputs | Output |
+| --- | --- | --- | --- |
+| Kling 4.0 | First, last, and intermediate keyframes | Images, videos, audio, and Elements | 3–30 seconds at 720p, with 1080p for eligible accounts |
+| Kling 4.0 Flash | Single first frame | Images, videos, and Elements | 3–20 seconds at 720p |
+
+Both omni-reference variants support smart shot splitting, synchronized sound generation, and retention of source-video audio. Choose at most one of the two sound output options. A separate audio reference requires the selected model to declare an audio input slot.
 
 ## Intent and inputs
 

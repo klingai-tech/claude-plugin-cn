@@ -8,7 +8,7 @@
     {
       "name": "kling-ai-cn",
       "source": "./",
-      "description": "Kling AI CN connects Claude to the China service. Turn ideas into images and videos with Kling AI in Claude. Create from text or reference images, apply motion control, reuse subjects from your Elements library, and track generation progress—all through natural language."
+      "description": "Kling AI CN connects Claude to the China service. Generate images from text, edit reference images, or create videos with Kling 4.0 and Kling 4.0 Flash when available to your account. Apply motion control, reuse subjects from your Elements library, and track generation progress in Claude."
     }
   ]
 }

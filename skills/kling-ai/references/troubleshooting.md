@@ -46,7 +46,7 @@ If the mismatch remains, report that the current connection did not return the r
 
 Follow [generation and results](../SKILL.md#generation-and-results) for App refresh and headless queries. If the user says a video or image did not appear, query the known task once. If refresh fails, report the task number and its last confirmed state.
 
-A rendering problem is not a generation failure. Preserve the tool result and use its text fallback and at most one primary result link. Do not register a local MCP server, embed duplicate media, or claim that an unmounted App was displayed. Report success only after terminal success with usable primary media; a cover image is not the video.
+Preserve the tool result and follow the [generation and results rules](../SKILL.md#generation-and-results) for the text fallback, usable result links, and completion status. Keep the same task number when the App fails to render.
 
 ## Submission fails or times out
 
