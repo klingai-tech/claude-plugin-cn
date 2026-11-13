@@ -55,10 +55,8 @@
 
 - [ ] `claude plugin validate . --strict` passes.
 - [ ] `claude plugin validate .claude-plugin/plugin.json --strict` passes.
-- [ ] Component validation reports individual Skill files without errors;
-      an empty `contents` array is not evidence of Skill validation.
-- [ ] `npm run check` passes from this repository or an isolated checkout.
-- [ ] `npm test` passes.
+- [ ] All three Skills have valid YAML frontmatter and bundled links.
+- [ ] The submitted plugin directory excludes development scripts and tests.
 - [ ] The packaged ZIP is inspected and contains only the approved files.
 - [ ] A clean Claude Code profile can install, connect, discover the Skill,
       make a read-only MCP call, and reach the pre-generation confirmation

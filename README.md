@@ -127,24 +127,14 @@ lower-cost modes when requested. Final settings are shown before submission.
 ```bash
 claude plugin validate . --strict
 claude plugin validate .claude-plugin/plugin.json --strict
-npm test
 ```
 
-The repository-local check validates metadata, the remote connection, Skill
-identities and bundled links, including support for V4 names in public
-documentation. It does not submit paid generation tasks or prove account
-access to a model; live routing and generation still require an authorized
-Claude Code connection.
+Check the frontmatter and bundled links for all three Skills. Run the
+developer portal's directory check for the exact release commit. See the
+[official pre-submission checklist](https://claude.com/docs/plugins/pre-submission-checklist).
 
-For Claude's component validation, inspect the per-file `contents` in
-`claude plugin validate skills --strict --json`. An empty `contents` array
-does not establish that the Skills were checked. Local validation also does
-not replace the developer portal's directory checks or security review; see
-the [official pre-submission checklist](https://claude.com/docs/plugins/pre-submission-checklist).
-
-The public ZIP must contain only the plugin manifest, remote MCP declaration,
-Skill files, README, and LICENSE. It must not contain `mcp-app`, a local server,
-credentials, or generated media.
+Keep development scripts, tests, local servers, credentials, and generated
+media out of the plugin directory submitted for review.
 
 ## Claude Desktop and Cowork
 
