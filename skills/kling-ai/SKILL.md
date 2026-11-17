@@ -1,12 +1,12 @@
 ---
 name: kling-ai
-description: Handle Kling AI / 可灵 requests in Claude Code, including prompt-only planning, missing-asset next steps, generation preparation and approved image/video creation. Route creative work to the dedicated Skills; manage Elements, motion library, uploads, credits, existing tasks and account switching through the remote MCP.
+description: Handle Kling AI / 可灵 requests, including prompt-only planning, missing-asset next steps, generation preparation and approved image/video creation. Route creative work to the dedicated Skills; manage Elements, motion library, uploads, credits, existing tasks and account switching through the remote MCP.
 license: MIT
 ---
 
-# Kling AI for Claude Code
+# Kling AI
 
-Use only the remote China MCP configured by this plugin: `https://klingai.com/mcp/plugin`. `.mcp.json` is the connection source of truth. Do not switch regions, register a second Kling MCP, or start or depend on a local MCP server.
+Use only the remote China MCP configured by this plugin: `https://klingai.com/mcp/plugin`. Do not switch regions, register a second Kling MCP, or start or depend on a local MCP server.
 
 ## Request routing
 
@@ -19,7 +19,7 @@ Use only the remote China MCP configured by this plugin: `https://klingai.com/mc
 - Account and credits: use `query_membership_and_credits`; model capabilities come from `who_am_i`.
 - Existing tasks or missing results: use [generation and results](#generation-and-results) with the known `generationId` for that submission. A status or library request never creates a generation.
 - To continue after topping up or a queue rejection, follow [resuming a paused generation](references/tool-workflows.md#resuming-a-paused-generation) before preparing a submission. A top-up notification by itself calls for a balance check only.
-- Sign-out or account switching: act only on an explicit user request, stay on the China endpoint, and complete native Claude Code OAuth before further Kling calls.
+- Sign-out or account switching: act only on an explicit user request, stay on the China endpoint, and complete the client's native MCP OAuth before further Kling calls.
 
 Call only tools present in the live tool list. An attachment alone does not determine its role; clarify only when first frame, tail frame, identity/product reference, editable source, motion source, or style reference would materially change the request.
 
@@ -27,8 +27,8 @@ Read [asset workflows](references/asset-workflows.md) for Elements, the motion l
 
 ## Connection and task identity
 
-- Use OAuth through Claude Code's native MCP connection flow (`/mcp`, then the plugin's `kling-ai` server). Never request an API key, token, cookie, authorization header, or credential file. Never log private account fields, upload tickets, or signed URLs.
-- Let Claude Code manage OAuth discovery, client registration, and credentials through its native MCP flow. This plugin does not configure a custom OAuth client name; do not invent registration overrides or block authorization because the host cannot set one. If the real OAuth flow fails, report the sanitized error and follow [troubleshooting](references/troubleshooting.md).
+- Use the client's native MCP OAuth flow for the plugin's `kling-ai` server. In Claude Code, select it from `/mcp`. Never request an API key, token, cookie, authorization header, or credential file. Never log private account fields, upload tickets, or signed URLs.
+- Let the client manage OAuth discovery, client registration, and credentials through its native MCP flow. This plugin does not configure a custom OAuth client name; do not invent registration overrides or block authorization because the host cannot set one. If the real OAuth flow fails, report the sanitized error and follow [troubleshooting](references/troubleshooting.md).
 - Create one UUIDv7 `taskTraceId` for each unrelated new objective. Reuse it across discovery, upload, generation, and querying for that objective wherever the live tool accepts it.
 - Preserve exact returned IDs. Present `generationId` as the task number; expose `taskTraceId` only when troubleshooting requires it.
 
@@ -45,7 +45,7 @@ Read [asset workflows](references/asset-workflows.md) for Elements, the motion l
 1. Resolve reference roles, Elements, and motion sources; prepare local media before submission. Use the returned provider references exactly as the selected live schema requires.
 2. Follow [tool workflows](references/tool-workflows.md#generation) to confirm the final billable settings, validate the request, check the balance on the same connection, and submit once. A multi-shot plan remains one task unless the user approves separate tasks.
 3. Once `generationId` is known, use only `query_tasks` for follow-up and keep the ID even if a later query omits it. If an ambiguous submission yields no ID, report the observed error or incomplete response and the unknown creation and billing state, then stop. `query_tasks` requires the ID. A trace ID, unchanged balance, or absent history entry cannot resolve that state.
-4. If Claude Code renders the generation MCP App and it can refresh, let the App own automatic refresh. Do not add duplicate media, thumbnails, or download links.
+4. If the client renders the generation MCP App and it can refresh, let the App own automatic refresh. Do not add duplicate media, thumbnails, or download links.
 5. If the App is absent or cannot refresh, query the same task at the provider-permitted interval until terminal, cancelled, rate limited, interrupted, or a query fails. During polling, if a resource error explicitly says to check the same task later, retry that status query once at the permitted interval. Return the tool's text fallback and at most one primary link per usable result, in the returned order. Do not add Markdown image/video embeds or claim an unmounted App was displayed.
 6. For an explicit status request or a report that the result is missing, query the original task once and report its state and any usable result. When a query fails or polling stops before completion, keep the task number, label the last confirmed state (such as accepted or processing), and explain that the current state could not be confirmed. Use “status unconfirmed” if no state was ever confirmed.
 7. Report full completion only after terminal success with the requested number of usable results of the requested media type. Count a work with its own status only if that status is successful. For video, count playable video rather than its cover. If a successful task yields fewer usable results than requested, deliver the available results and report the actual count (for example, “2 of 3 images generated”). If none are usable, report the missing results. Keep the original task number in either case.
@@ -64,7 +64,7 @@ Apply only when the user has not specified another choice and the live model sup
 
 ## Failure behavior
 
-- Unauthorized: use native Claude Code OAuth and continue only after authorization succeeds.
+- Unauthorized: use the client's native MCP OAuth and continue only after authorization succeeds.
 - Unsupported argument or invalid media: follow [troubleshooting](references/troubleshooting.md) to verify the request and locate the original task before considering a new submission.
 - Insufficient credits: preserve the original settings and submission state and follow [resuming a paused generation](references/tool-workflows.md#resuming-a-paused-generation).
 - Provider failure: report the sanitized provider message and preserve the task number. Do not resubmit automatically.

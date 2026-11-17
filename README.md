@@ -5,7 +5,7 @@ Build your own AI creative workflow with Kling MCP.
 This plugin contains:
 
 - a remote OAuth MCP connection to the China endpoint `https://klingai.com/mcp/plugin`;
-- three Claude Code Skills with shared connection and billing rules:
+- three Skills with shared connection and billing rules:
 
 | Skill | Purpose |
 | --- | --- |
@@ -46,6 +46,13 @@ Code marketplace and install `kling-ai-cn@klingai-cn`.
 claude plugin marketplace add klingai-tech/claude-plugin-cn
 claude plugin install kling-ai-cn@klingai-cn
 ```
+
+## Use with Agent Plugins clients
+
+Install the plugin through a client that supports Agent Plugins 1.0. The root
+`plugin.json` declares the plugin, and `mcp.json` registers the same China MCP
+endpoint as the Claude package. Connect your China account through the client's
+native MCP OAuth flow. The client needs to support Streamable HTTP and OAuth.
 
 ## Connect
 
@@ -128,10 +135,8 @@ media out of the plugin directory submitted for review.
 
 Claude supports plugins in chat, Claude Desktop, and Cowork, with component
 support varying by surface; see [Use plugins in Claude](https://support.claude.com/en/articles/13837440-use-plugins-in-claude).
-This package's instructions target Claude Code. Its authentication flow,
-uploads, and result presentation have not been validated on the other
-surfaces. Do not assume Claude Code commands such as `/mcp` apply there; use
-the target host's native plugin and connector controls.
+Authentication, uploads, and result presentation have not been validated on
+these Claude surfaces. Use each host's native plugin and connector controls.
 
 ## China service policies and data flow
 

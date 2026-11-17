@@ -1,14 +1,14 @@
-# Claude Code troubleshooting
+# Kling AI troubleshooting
 
 ## MCP tools are missing
 
-Use `/mcp` to verify that the plugin's `kling-ai` server is enabled and points to `https://klingai.com/mcp/plugin`. After changing plugin files, run `/reload-plugins`; if the tool definitions remain stale, restart the Claude Code session and check its MCP diagnostics. Do not add a duplicate server or use an API key as a workaround.
+Use the client's MCP controls to verify that the plugin's `kling-ai` server is enabled and points to `https://klingai.com/mcp/plugin`. In Claude Code, use `/mcp` to check the connection and `/reload-plugins` after changing plugin files. If tool definitions remain stale, restart the session and check the client's MCP diagnostics. Do not add a duplicate server or use an API key as a workaround.
 
 ## Endpoint migration and authorization
 
-This release uses the China endpoint `https://klingai.com/mcp/plugin`. When switching from another region, retain any outstanding task numbers and finish their status checks through the original connection. Disconnect the old host-managed OAuth session, update the plugin, then use `/mcp` to authorize the China account. Never transfer credentials between hosts or assume that regional task history and credits are shared.
+This release uses the China endpoint `https://klingai.com/mcp/plugin`. When switching from another region, retain any outstanding task numbers and finish their status checks through the original connection. Disconnect the old host-managed OAuth session, update the plugin, then use the client's native MCP OAuth flow to authorize the China account. Never transfer credentials between hosts or assume that regional task history and credits are shared.
 
-For an authorization failure, use `/mcp`, select the plugin's Kling server, and complete native OAuth. If sign-out or account switching was explicitly requested, call the live `logout` tool as documented and reauthorize before other Kling calls. Do not paste tokens, construct OAuth URLs manually, or add an `oauth_resource` override. `/reload-plugins` reloads plugin files; it does not refresh OAuth credentials.
+For an authorization failure, select the plugin's Kling server in the client's MCP controls and complete native OAuth. If sign-out or account switching was explicitly requested, call the live `logout` tool as documented and reauthorize before other Kling calls. Do not paste tokens, construct OAuth URLs manually, or add an `oauth_resource` override. In Claude Code, `/reload-plugins` reloads plugin files; it does not refresh OAuth credentials.
 
 OAuth discovery and client registration belong to the host. Do not require a custom client name or try to add one to generation arguments, headers, or the MCP URL. If the server rejects the host's registration, preserve the sanitized error for the service maintainer instead of guessing metadata or requesting credentials in chat.
 
@@ -20,13 +20,13 @@ OAuth discovery and client registration belong to the host. Do not require a cus
 - If upload is unavailable or fails, stop before dependent Element writes or generation. Do not silently switch to text-only generation or loop on upload requests.
 - For invalid media or a signature error, verify the full URL from the successful upload response and the exact input slot. If the problem occurred before any generation call, fix the reference and complete the approved first submission.
 - If the service says to retry with the same generation ID, query only a `generationId` confirmed for this submission. An upload ID, source work ID, or ID from another step cannot identify this task. If the submission did not yield a confirmed ID, report that creation and billing are unconfirmed, retain `taskTraceId`, and pause.
-- When diagnosing a changed URL, compare the upload response, the reference provided to the model, the tool-call arguments, and the actual Claude Code MCP request where available. Record only redacted URL summaries and query parameter names, and identify any missing evidence. A resource error alone does not identify where the URL changed.
+- When diagnosing a changed URL, compare the upload response, the reference provided to the model, the tool-call arguments, and the actual outbound MCP request where available. Record only redacted URL summaries and query parameter names, and identify any missing evidence. A resource error alone does not identify where the URL changed.
 
 ## Parameter or resolution rejected
 
 - Check the submitted top-level `model` for omission, null, empty, or whitespace-only values. Compare the required `arguments[]`, including `prompt` when required, and the exact required `inputs[]` slots against the selected model. For example, `image_1` and `first_image` are separate slots.
 - For a resolution rejection, including on image-to-video Flash models, refresh `who_am_i` and compare the actual submitted value with the field, enum, and applicable conditions for the same account, connection, tool, and model. If the value matches and is still rejected, retain the trace ID and sanitized fields for the service maintainer. Ask the user to choose if their requested specification is unavailable.
-- To locate a missing or changed field, compare the model's tool-call arguments with Claude Code's outbound MCP arguments and the same turn's schema `required` list where available. Preserve the original prompt, mode, and reference roles. Correct the rejected field only and follow the core approval rule before any new submission.
+- To locate a missing or changed field, compare the model's tool-call arguments with the client's outbound MCP arguments and the same turn's schema `required` list where available. Preserve the original prompt, mode, and reference roles. Correct the rejected field only and follow the core approval rule before any new submission.
 
 ## Model capability mismatch
 

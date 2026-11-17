@@ -1,6 +1,6 @@
 ---
 name: kling-ai-generate-image
-description: Write or refine Kling AI image prompts, including prompt-only requests, or generate and edit images through the Kling AI MCP in Claude Code. Use for posters, product photography, portraits, covers, advertising stills, visual concepts, and controlled variants.
+description: Write or refine Kling AI image prompts, including prompt-only requests, or generate and edit images through the Kling AI MCP. Use for posters, product photography, portraits, covers, advertising stills, visual concepts, and controlled variants.
 ---
 
 # Kling AI image generation

@@ -30,7 +30,7 @@ Use this reference for library operations and media preparation. The live `tools
 
 ## Local media uploads
 
-- Prefer media already attached in Claude Code and accepted by the selected model. If a public URL is accepted by the live tool, use it directly; do not download it unnecessarily. A historical Kling result must be refreshed by `generationId` immediately before reuse, never reused from an old URL in conversation history.
+- Prefer media already attached in the client and accepted by the selected model. If a public URL is accepted by the live tool, use it directly; do not download it unnecessarily. A historical Kling result must be refreshed by `generationId` immediately before reuse, never reused from an old URL in conversation history.
 - If no usable attachment reference exists and the live MCP exposes `file_upload`, request an upload ticket with the real filename, MIME type, byte size, and the same `taskTraceId`. Never send a local path as a remote URL.
 - Complete the provider's second upload step with the returned ticket and upload URL using multipart form data containing `ticket` and the binary `file`. A ticket response is not upload completion; use the media URL only after the upload service confirms success.
 - Bind the exact media URL from the successful upload response's `data.url` or its live equivalent. Preserve the complete string, including path, query order, casing, and escaping. Compare `inputs[].url` with the original response when the outbound request is available. Use the original value rather than a chat preview or the upload endpoint. If the full reference is unavailable, pause the dependent call and follow [upload troubleshooting](troubleshooting.md#upload-or-media-reference-fails).

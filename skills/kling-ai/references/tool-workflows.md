@@ -29,6 +29,6 @@
 
 - Create or update an Element only as requested, following the complete-resource rules in [asset workflows](asset-workflows.md).
 - Delete an Element only when the user explicitly identifies the deletion target. A cover replacement that requires delete-and-recreate needs explicit authorization for the ID change.
-- Call `logout` or switch accounts only when explicitly requested. Re-enter native Claude Code OAuth through `/mcp` and stop other Kling calls until authorization completes.
+- Call `logout` or switch accounts only when explicitly requested. Reauthorize through the client's native MCP OAuth flow and stop other Kling calls until authorization completes.
 
 Never retry a generation automatically. If a submission is ambiguous and no `generationId` was received, report unknown creation and billing state. Task queries require a real task number. An unchanged balance or a missing history entry does not resolve an ambiguous submission.
