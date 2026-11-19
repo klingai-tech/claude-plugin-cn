@@ -6,7 +6,7 @@ license: MIT
 
 # Kling AI
 
-Use only the remote China MCP configured by this plugin: `https://klingai.com/mcp/plugin`. Do not switch regions, register a second Kling MCP, or start or depend on a local MCP server.
+Use only the remote China MCP configured by this plugin: `https://kling-ai.prt.kuaishou.com/mcp/plugin`. Do not switch regions, register a second Kling MCP, or start or depend on a local MCP server.
 
 ## Request routing
 

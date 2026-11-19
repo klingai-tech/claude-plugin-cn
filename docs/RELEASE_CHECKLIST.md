@@ -6,7 +6,7 @@
       version, description, author, homepage, license, `skills`, and
       `mcpServers`.
 - [ ] `.mcp.json` registers exactly one HTTP server named `kling-ai` at
-      `https://klingai.com/mcp/plugin` (China).
+      `https://kling-ai.prt.kuaishou.com/mcp/plugin` (China).
 - [ ] `kling-ai`, `kling-ai-generate-image`, and `kling-ai-generate-video`
       each have valid `name` and trigger-focused `description` frontmatter.
 - [ ] The main Skill routes creation to the matching generation Skill; all

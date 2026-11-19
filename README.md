@@ -46,14 +46,14 @@ claude
 ### 手动连接 MCP 或使用 CLI
 
 在支持远程 MCP 和 OAuth 的客户端里，可以添加 `https://klingai.com/mcp` 作为自定义连接器，
-再用国内可灵账号授权。安装本插件时会自动配置 `https://klingai.com/mcp/plugin`。
+再用国内可灵账号授权。安装本插件时会自动配置 `https://kling-ai.prt.kuaishou.com/mcp/plugin`。
 同一个助手保留一种可灵接入方式。其他客户端的具体设置和终端 CLI 安装见[国内版官方指南](https://klingai.com/app/mcp/guide)。
 
 ## 插件内容
 
 This plugin contains:
 
-- a remote OAuth MCP connection to the China endpoint `https://klingai.com/mcp/plugin`;
+- a remote OAuth MCP connection to the China endpoint `https://kling-ai.prt.kuaishou.com/mcp/plugin`;
 - three Skills with shared connection and billing rules:
 
 | Skill | Purpose |
@@ -159,6 +159,6 @@ these Claude surfaces. Use each host's native plugin and connector controls.
 - [Privacy policy](https://klingai.com/docs/privacy-policy)
 - [User service agreement and support contacts](https://klingai.com/docs/user-policy)
 
-The plugin connects to the declared China MCP server at `https://klingai.com/mcp/plugin`. Prompts and reference media are sent to Kling AI for processing. When the server returns an upload ticket, the host sends the selected file and ticket directly to the provider-supplied upload URL; this is an additional HTTP upload step outside the MCP transport. Do not log the ticket or signed URL.
+The plugin connects to the declared China MCP server at `https://kling-ai.prt.kuaishou.com/mcp/plugin`. Prompts and reference media are sent to Kling AI for processing. When the server returns an upload ticket, the host sends the selected file and ticket directly to the provider-supplied upload URL; this is an additional HTTP upload step outside the MCP transport. Do not log the ticket or signed URL.
 
 Image and video generation consumes Kling AI credits. The bundled skills do not implement checkout, payment, or credit purchases. Refer to the China service policies for account, content storage, deletion, and paid-service terms. The privacy policy does not specify a fixed retention period for data received from Claude.

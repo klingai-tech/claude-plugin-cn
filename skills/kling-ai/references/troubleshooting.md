@@ -2,11 +2,11 @@
 
 ## MCP tools are missing
 
-Use the client's MCP controls to verify that the plugin's `kling-ai` server is enabled and points to `https://klingai.com/mcp/plugin`. In Claude Code, use `/mcp` to check the connection and `/reload-plugins` after changing plugin files. If tool definitions remain stale, restart the session and check the client's MCP diagnostics. Do not add a duplicate server or use an API key as a workaround.
+Use the client's MCP controls to verify that the plugin's `kling-ai` server is enabled and points to `https://kling-ai.prt.kuaishou.com/mcp/plugin`. In Claude Code, use `/mcp` to check the connection and `/reload-plugins` after changing plugin files. If tool definitions remain stale, restart the session and check the client's MCP diagnostics. Do not add a duplicate server or use an API key as a workaround.
 
 ## Endpoint migration and authorization
 
-This release uses the China endpoint `https://klingai.com/mcp/plugin`. When switching from another region, retain any outstanding task numbers and finish their status checks through the original connection. Disconnect the old host-managed OAuth session, update the plugin, then use the client's native MCP OAuth flow to authorize the China account. Never transfer credentials between hosts or assume that regional task history and credits are shared.
+This release uses the China endpoint `https://kling-ai.prt.kuaishou.com/mcp/plugin`. When switching from another region, retain any outstanding task numbers and finish their status checks through the original connection. Disconnect the old host-managed OAuth session, update the plugin, then use the client's native MCP OAuth flow to authorize the China account. Never transfer credentials between hosts or assume that regional task history and credits are shared.
 
 For an authorization failure, select the plugin's Kling server in the client's MCP controls and complete native OAuth. If sign-out or account switching was explicitly requested, call the live `logout` tool as documented and reauthorize before other Kling calls. Do not paste tokens, construct OAuth URLs manually, or add an `oauth_resource` override. In Claude Code, `/reload-plugins` reloads plugin files; it does not refresh OAuth credentials.
 
