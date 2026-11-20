@@ -44,6 +44,16 @@ claude
 - **Claude Code 里找不到 `kling-ai`。** 安装后重新启动 Claude Code，再打开 `/mcp`。
 - **授权过期或连接到另一个账号。** 在客户端的 MCP 或连接器面板断开当前授权，再登录需要使用的国内账号。切换区域前，先查完原区域待跟进的任务，再关闭原连接并启用对应区域插件。
 
+### Gemini CLI
+
+仓库也提供 Gemini CLI 国内版扩展。运行以下命令从官方仓库安装：
+
+```bash
+gemini extensions install https://github.com/klingai-tech/claude-plugin-cn
+```
+
+启动 Gemini CLI 后，运行 `/mcp auth kling-ai-china-plugin` 并登录国内可灵账号，再用 `/mcp` 检查连接。生成会消耗该账号的灵感值。海外账号请安装[海外版扩展](https://github.com/klingai-tech/claude-plugin)。
+
 ### 手动连接 MCP 或使用 CLI
 
 在支持远程 MCP 和 OAuth 的客户端里，可以添加 `https://klingai.com/mcp` 作为自定义连接器，
