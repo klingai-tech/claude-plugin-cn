@@ -50,6 +50,12 @@ claude
 再用国内可灵账号授权。安装本插件时会自动配置 `https://klingai.com/mcp/plugin`。
 同一个助手保留一种可灵接入方式。其他客户端的具体设置和终端 CLI 安装见[国内版官方指南](https://klingai.com/app/mcp/guide)。
 
+### 在 VS Code 与 GitHub Copilot 中连接
+
+[在 VS Code 中添加可灵中国区 MCP](https://vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kling-ai-china%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Fklingai.com%252Fmcp%252Fplugin%2522%257D)
+
+链接会打开连接配置预览。核对端点后安装，并用国内可灵账号完成 OAuth；生成图片和视频会消耗该账号的灵感值。
+
 ## 插件内容
 
 This plugin contains:
