@@ -48,7 +48,7 @@ Claude Code 2.1.292 及以上版本也可以用 `claude plugin install kling-ai-
 
 同一个 AI 助手选择一种可灵接入方式即可。安装插件会自动配置 `https://klingai.com/mcp/plugin`。
 
-- **手动接入 MCP** · 在 Claude 网页端或桌面端打开 **Plugins**（或 **Customize → Connectors**），添加自定义连接器 `https://klingai.com/mcp`，再点击 **Connect**，登录国内版账号并授权。
+- **手动接入 MCP** · 在 Claude 网页端或桌面端打开 **Plugins**（或 **Customize → Connectors**），添加自定义连接器 `https://klingai.com/mcp/plugin`，再点击 **Connect**，登录国内版账号并授权。
 - **终端 CLI** · 运行 `npm i -g @klingai/cli-cn --registry=https://registry.npmjs.org`，再运行 `kling login` 登录和 `kling --help` 查看命令。
 
 [其他客户端的 MCP 配置和 CLI 命令](https://klingai.com/app/mcp/guide)
