@@ -6,6 +6,8 @@
 
 [可灵 MCP & CLI 官方使用指南（国内版）](https://klingai.com/app/mcp/guide)
 
+[一键添加到 Kiro](https://kiro.dev/launch/mcp/add?name=Kling%20AI%20China%20Plugin&config=%7B%22url%22%3A%22https%3A%2F%2Fklingai.com%2Fmcp%2Fplugin%22%2C%22disabled%22%3Afalse%2C%22autoApprove%22%3A%5B%5D%7D)
+
 ## 快速开始
 
 ### Claude 网页端和桌面端
