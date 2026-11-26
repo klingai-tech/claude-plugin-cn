@@ -91,6 +91,16 @@ native MCP OAuth flow. The client needs to support Streamable HTTP and OAuth.
 - **VS Code with Copilot**：[在 VS Code 中安装可灵中国区插件](https://vscode.dev/redirect?url=vscode%3A%2F%2Fchat-plugin%2Finstall%3Fsource%3Dklingai-tech%252Fclaude-plugin-cn%26plugin%3Dkling-ai-cn)。VS Code 会先请求确认；首次连接时使用中国区可灵账号完成 OAuth 授权。
 - 如果链接无法打开，请在 VS Code 命令面板运行 **Chat: Install Plugin from Source**，输入 `https://github.com/klingai-tech/claude-plugin-cn`。
 
+## Gemini CLI
+
+Install the official China extension from the repository:
+
+```bash
+gemini extensions install https://github.com/klingai-tech/claude-plugin-cn
+```
+
+In Gemini CLI, run `/mcp auth kling-ai-china-plugin` to sign in with a China Kling account, then use `/mcp` to check the connection. Image and video generation consumes credits from that account. For Global accounts, install the [Global extension](https://github.com/klingai-tech/claude-plugin).
+
 ## Use
 
 Try one of these prompts in Claude.
