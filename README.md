@@ -6,6 +6,8 @@
 
 [可灵 MCP & CLI 官方使用指南（国内版）](https://klingai.com/app/mcp/guide)
 
+[![Kling AI China Plugin on Glama](https://glama.ai/mcp/connectors/io.github.klingai-dev/kling-ai-cn/badges/score.svg)](https://glama.ai/mcp/connectors/io.github.klingai-dev/kling-ai-cn)
+
 ## 快速开始
 
 ### Claude 网页端和桌面端
