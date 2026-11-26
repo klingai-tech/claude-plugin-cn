@@ -7,6 +7,13 @@
 [可灵 MCP & CLI 官方使用指南（国内版）](https://klingai.com/app/mcp/guide)
 
 其他 MCP 客户端（Claude、ChatGPT、Codex、Cursor、VS Code、Gemini CLI 等）的分步接入说明，见 [mcp.tc 社区页面](https://mcp.tc/i/kling-ai-china)。
+CodeBuddy CLI 可用以下命令接入国内版端点，首次连接时按提示完成 OAuth 授权：
+
+```bash
+codebuddy mcp add --scope user --transport http kling-ai-cn https://klingai.com/mcp/plugin
+```
+
+详见 [CodeBuddy MCP 指南](https://www.codebuddy.ai/docs/cli/mcp)。
 
 ## 快速开始
 
