@@ -53,6 +53,12 @@ Claude Code 2.1.292 及以上版本也可以用 `claude plugin install kling-ai-
 
 [其他客户端的 MCP 配置和 CLI 命令](https://klingai.com/app/mcp/guide)
 
+### 在 VS Code 与 GitHub Copilot 中连接
+
+[在 VS Code 中添加可灵中国区 MCP](https://vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kling-ai-china%2522%252C%2522type%2522%253A%2522http%2522%252C%2522url%2522%253A%2522https%253A%252F%252Fklingai.com%252Fmcp%252Fplugin%2522%257D)
+
+链接会打开连接配置预览。核对端点后安装，并用国内可灵账号完成 OAuth；生成图片和视频会消耗该账号的灵感值。
+
 ## 插件内容
 
 插件通过 OAuth 连接国内版可灵 MCP `https://klingai.com/mcp/plugin`，生成任务由可灵服务执行。插件内置三个 Skill。
