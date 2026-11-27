@@ -53,6 +53,8 @@ user explicitly adopts them.
    workflow that is missing are blocks. Preserve progress and report the problem;
    do not silently fall back, merge workflows, or begin generation.
 
+PRT returns the selected ID and version as `workflow.id` and `workflow.version` on both entry and file reads. Save them with the returned `path`. On every required read, check that the path matches the file requested and that the metadata still matches the selected package. If the file changed version, cannot be verified for an already pinned version, or returns empty content, pause the dependent stage before using it. Reuse verified files already loaded for this objective, including across stages and on resume. Fetch only the required files whose verified content is unavailable. A link to an already loaded file or a different heading in it does not require a new read.
+
 Local fallback is allowed only when complete declarations from this connection confirm that the catalog is absent, or a successful catalog lookup returns no match, unless the user explicitly requires a remote workflow. Local fallback means the matching bundled image/video Skill and its creative references. Execution checks still validate remote choices against the current
 account's live capabilities. If required choices cannot be executed, report the
 conflict and preserve the selected workflow rather than silently changing it.
