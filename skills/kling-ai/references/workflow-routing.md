@@ -38,8 +38,11 @@ user explicitly adopts them.
    the catalog is absent.
 5. **Match and load remotely when supported.** Use the discovered catalog's live
    schema. For `skill_catalog`, a known exact ID can be loaded with `id`; otherwise
-   omit `id` and `path` to list workflows and match returned names/descriptions to
-   the goal. Follow any declared pagination before concluding there is no match.
+   start with a fresh `skill_catalog` call with no `id` or `path` and match the goal
+   to the returned names and descriptions. A remembered workflow ID or a likely
+   match inferred from the user's wording cannot skip this list step. Only a
+   workflow ID explicitly provided by the user can skip listing for a new goal.
+   Follow any declared pagination before concluding there is no match.
    Do not use a display name as an ID. Ask a focused question if multiple
    matches would materially change the result. Read the selected entry before
    planning; verify the returned ID/version against the selection and pause on mismatch; load referenced package files only using paths returned in `files`,
