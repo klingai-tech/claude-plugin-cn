@@ -1,6 +1,8 @@
 <!-- aipluginindex-verify: aipi-075bc2978ff61277 -->
 
-# 可灵 AI 国内版 Claude 插件（Kling AI CN）
+# 可灵 AI 国内版 Claude 插件（Kling AI CN · PRT）
+
+本 `prt` 分支连接 `https://kling-ai.prt.kuaishou.com/mcp`。本地验收请检出本分支并使用 `claude --plugin-dir /absolute/path/to/claude-plugin-cn`；下方市场安装说明面向正式版本。
 
 在 Claude 里用自然语言生成或编辑图片、生成视频、复用主体，并查询任务进度和灵感值。本插件使用 `klingai.com` 的国内版账号。若你的账号在 `kling.ai`，请选择 [国际版插件](https://github.com/klingai-tech/claude-plugin)。两区的账号、灵感值和任务各自独立。
 
@@ -46,22 +48,24 @@ Claude Code 2.1.292 及以上版本也可以用 `claude plugin install kling-ai-
 
 ### 手动接入 MCP 或使用 CLI
 
-同一个 AI 助手选择一种可灵接入方式即可。安装插件会自动配置 `https://klingai.com/mcp/plugin`。
+同一个 AI 助手选择一种可灵接入方式即可。安装插件会自动配置 `https://kling-ai.prt.kuaishou.com/mcp`。
 
-- **手动接入 MCP** · 在 Claude 网页端或桌面端打开 **Plugins**（或 **Customize → Connectors**），添加自定义连接器 `https://klingai.com/mcp/plugin`，再点击 **Connect**，登录国内版账号并授权。
+- **手动接入 MCP** · 在 Claude 网页端或桌面端打开 **Plugins**（或 **Customize → Connectors**），添加自定义连接器 `https://kling-ai.prt.kuaishou.com/mcp`，再点击 **Connect**，登录国内版账号并授权。
 - **终端 CLI** · 运行 `npm i -g @klingai/cli-cn --registry=https://registry.npmjs.org`，再运行 `kling login` 登录和 `kling --help` 查看命令。
 
 [其他客户端的 MCP 配置和 CLI 命令](https://klingai.com/app/mcp/guide)
 
 ## 插件内容
 
-插件通过 OAuth 连接国内版可灵 MCP `https://klingai.com/mcp/plugin`，生成任务由可灵服务执行。插件内置三个 Skill。
+插件通过 OAuth 连接国内版可灵 MCP `https://kling-ai.prt.kuaishou.com/mcp`，生成任务由可灵服务执行。插件内置三个 Skill。
 
 | Skill | 用途 |
 | --- | --- |
 | `kling-ai` | 请求分流、主体库、动作库浏览、素材上传、灵感值查询、任务进度和账号切换 |
 | `kling-ai-generate-image` | 文生图、图生图、参考图处理、提示词和场景指导 |
 | `kling-ai-generate-video` | 文生视频、图生视频、全能参考、关键帧、受支持的音频输入、动作控制和分镜规划 |
+
+创作请求先经过[统一流程路由](skills/kling-ai/references/workflow-routing.md)：明确要求跳过创作时保留原提示词与已确认设置；同一目标续做时沿用已选流程和版本；新目标在当前中国区连接提供创作目录时查询匹配。远端流程成功加载后接管创作规则，完整工具声明确认无目录，或目录成功查询后无匹配时，使用本地流程；搜索未命中、截断或声明不完整时暂停选路。查询或加载失败会保留进度并报告阻塞，不会自动换流程。授权、实时参数校验、额度检查和单次提交规则始终生效。流程来源、阶段和任务状态保存在当前会话中，不提供独立的跨会话存储。
 
 ## Install for local review
 
@@ -142,7 +146,10 @@ lower-cost modes when requested. Final settings are shown before submission.
 ```bash
 claude plugin validate . --strict
 claude plugin validate .claude-plugin/plugin.json --strict
+npm test
 ```
+
+`npm run test:routing` exercises the host against a local MCP fixture, including incomplete tool discovery, remote handoff and continuation. It does not create paid Kling tasks; working host model access is required.
 
 Check the frontmatter and bundled links for all three Skills. Run the
 developer portal's directory check for the exact release commit. See the
@@ -160,7 +167,7 @@ repository's validation covers the Claude Code package.
 
 ## Install in Kiro
 
-[![Add to Kiro](https://kiro.dev/images/add-to-kiro.svg)](https://kiro.dev/launch/mcp/add?name=Kling+AI+China&config=%7B%22url%22%3A%22https%3A%2F%2Fklingai.com%2Fmcp%2Fplugin%22%2C%22disabled%22%3Afalse%2C%22autoApprove%22%3A%5B%5D%7D)
+[![Add to Kiro](https://kiro.dev/images/add-to-kiro.svg)](https://kiro.dev/launch/mcp/add?name=Kling+AI+China&config=%7B%22url%22%3A%22https%3A%2F%2Fkling-ai.prt.kuaishou.com%2Fmcp%22%2C%22disabled%22%3Afalse%2C%22autoApprove%22%3A%5B%5D%7D)
 
 This one-click link adds the China remote MCP server. Kiro handles OAuth
 for this endpoint. Image and video generation consumes credits in the signed-in
@@ -189,6 +196,6 @@ If Kling AI CN is already installed in Claude Code, run `agy plugin import claud
 - [Privacy policy](https://klingai.com/docs/privacy-policy)
 - [User service agreement and support contacts](https://klingai.com/docs/user-policy)
 
-The plugin connects to the declared China MCP server at `https://klingai.com/mcp/plugin`. Prompts and reference media are sent to Kling AI for processing. When the server returns an upload ticket, the host sends the selected file and ticket directly to the provider-supplied upload URL; this is an additional HTTP upload step outside the MCP transport. Do not log the ticket or signed URL.
+The plugin connects to the declared China MCP server at `https://kling-ai.prt.kuaishou.com/mcp`. Prompts and reference media are sent to Kling AI for processing. When the server returns an upload ticket, the host sends the selected file and ticket directly to the provider-supplied upload URL; this is an additional HTTP upload step outside the MCP transport. Do not log the ticket or signed URL.
 
 Image and video generation consumes Kling AI credits. The bundled skills do not implement checkout, payment, or credit purchases. Refer to the China service policies for account, content storage, deletion, and paid-service terms. The privacy policy does not specify a fixed retention period for data received from Claude.

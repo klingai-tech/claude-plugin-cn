@@ -7,6 +7,7 @@ This reference records only stable tool-level constraints. Always take models, d
 - Discovery and account: `who_am_i`, `query_membership_and_credits`, `logout`
 - Generation and status: `text_to_image`, `image_to_image`, `text_to_video`, `image_to_video`, `omni_ref_video`, `motion_control`, `query_tasks`
 - Media and reuse: `file_upload`, `motion_library_list`, `element_create`, `element_list`, `element_get`, `element_update`, `element_delete`
+- Creative workflow discovery, only when present on this connection: `skill_catalog`. Follow [workflow routing](workflow-routing.md) and its live schema; this read-only catalog does not establish model access or authorize generation.
 
 Call only tools that exist in the current tool list.
 

@@ -2,7 +2,11 @@
 
 ## Generation
 
-1. Use the plugin's single `kling-ai` connection at `https://klingai.com/mcp/plugin` and follow [capability discovery](capability-discovery.md), including all tool-list pages and relevant new entry points.
+Keep the source, workflow version, stage, and submission record selected by
+[workflow routing](workflow-routing.md). These execution steps apply to local,
+remote, and bypass routes; they do not reactivate local creative preferences.
+
+1. Use the plugin's single `kling-ai` connection at `https://kling-ai.prt.kuaishou.com/mcp` and follow [capability discovery](capability-discovery.md), including all tool-list pages and relevant new entry points.
 2. Create or reuse the objective's UUIDv7 `taskTraceId`, reuse the successful `who_am_i` response for this preparation, and apply [model parameters](model-parameters.md) to the selected tool/model pair. Video selection follows [video routing](../../kling-ai-generate-video/references/model-routing.md), including `omni_ref_video` when available. Refresh capability data when invalidated, not just because another reference was loaded.
 3. For Elements, motion-library selections, or local media, follow [asset workflows](asset-workflows.md). A library operation does not authorize generation. Do not silently fall back to text-only generation if a required reference is unavailable.
 4. Show the final mode, model, prompt summary, resolution, duration when applicable, aspect ratio, output count, and reference roles. Include live-required billing disclosures, including per-second billing and input video duration when applicable. Describe shot controls only as declared by the model, without inferring the actual number of cuts. Obtain explicit approval under the core Skill's billing rule.
@@ -11,6 +15,11 @@
 7. Call the selected generation tool once using its live schema. Preserve `generationId` and follow the core Skill's [generation and results](../SKILL.md#generation-and-results). Keep at most one active generation for the same objective. For dependent steps, wait for terminal success and a usable source result before continuing.
 
 ## Resuming a paused generation
+
+Reuse the original effective workflow and version along with the prepared request;
+do not query the catalog to reselect it or apply a newly available workflow.
+Follow [workflow continuation](workflow-routing.md#save-continuation-state) if the
+selection or loaded remote content is missing.
 
 1. Keep the original intent, tool, canonical model ID, prompt, settings, reference roles and usable references, `taskTraceId`, submission state, and known `generationId` in the current conversation. If credits are insufficient, explain whether submission was prevented, rejected, or remains unconfirmed. Report a credit shortfall only when the live service provides a cost for the same settings.
 2. For insufficient credits, share the official top-up entry returned for the current region when available. Otherwise direct the user to sign into the same China account on the [Kling AI website](https://klingai.com/app) and open the top-up page from the account. The user completes the purchase and can return to the same conversation with “Continue the previous generation.” A message that only says the user topped up can trigger a balance check.

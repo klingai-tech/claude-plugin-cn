@@ -18,6 +18,13 @@ Host tool-name search must discover these candidates, not just the legacy entry 
 
 ## Selection and visibility
 
+Apply the live compatibility checks on every route. The model recommendations
+and preferences here and in linked image/video routing guides apply only to the
+local creative route selected by [workflow routing](workflow-routing.md). On a
+remote or bypass route, validate that route's chosen model/settings without
+replacing them with local preferences. If that route leaves the model open, use
+a compatible live default or present compatible choices for review.
+
 - A user-specified available model takes precedence if it satisfies all required capabilities. Recommend V4 for video only when the user permits it and the current account returns an eligible tool/model pair. Match V4 or V4 Flash using live canonical names and declared aliases. Prefer full-quality V4 for normal delivery and V4 Flash when the user prioritizes drafts, speed, or credit savings, subject to live capabilities.
 - If no compatible V4 model is returned and the user permits other models, choose a compatible live model, preferring the tool's available default. If the user requires V4, report the unmet requirement and stop. For images, follow the [image model selection rules](../../kling-ai-generate-image/SKILL.md#mode-rules).
 - In user-facing recommendations, identify the selected model by its returned name. Do not describe it as "the latest model" or "最新模型", or recommend models absent from the current account response.

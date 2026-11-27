@@ -6,13 +6,14 @@ license: MIT
 
 # Kling AI
 
-Use only the remote China MCP configured by this plugin: `https://klingai.com/mcp/plugin`. Do not switch regions, register a second Kling MCP, or start or depend on a local MCP server.
+Use only the remote China MCP configured by this plugin: `https://kling-ai.prt.kuaishou.com/mcp`. Do not switch regions, register a second Kling MCP, or start or depend on a local MCP server.
 
 ## Request routing
 
+- Before applying any creative guidance, follow [creative workflow routing](references/workflow-routing.md): explicit bypass, existing selection, a matching workflow from this connection's remote catalog when available, then local fallback only when the catalog is absent or has no match. A lookup/load failure blocks selection. Save the unique effective workflow and continuation state in the conversation.
 - Identify whether the user wants creative writing, a generation proposal, a submission, or an existing-task query. Creative writing ends with the requested prompt or plan. A generation proposal uses live capability discovery and ends with the settings for review. Submit only after approval under the billing rules below.
-- For image prompts, creation, or editing, follow [kling-ai-generate-image](../kling-ai-generate-image/SKILL.md).
-- For video prompts, storyboards, missing-image next steps, generation, model selection or motion transfer, follow [kling-ai-generate-video](../kling-ai-generate-video/SKILL.md). For generation preparation, discover relevant entry points including pure-text omni; prompt-only work and requesting a missing asset do not need account queries.
+- For image prompts, creation, or editing, use [kling-ai-generate-image](../kling-ai-generate-image/SKILL.md) for the local route and shared execution checks.
+- For video prompts, storyboards, missing-image next steps, generation, model selection or motion transfer, use [kling-ai-generate-video](../kling-ai-generate-video/SKILL.md) for the local route and shared execution checks. For generation preparation, discover relevant entry points including pure-text omni; prompt-only work and requesting a missing asset do not need model or balance queries.
 - Keep uploads, Elements, motion-library browsing, account operations, credit checks, and task status in this Skill. It also supplies the shared connection, billing, submission, and result rules for both generation Skills.
 - Motion library: browse with `motion_library_list`. Resolve the selected motion, then follow the video Skill for `motion_control` with a subject image and exactly one motion source.
 - Subject library / Elements: use `element_list`, `element_get`, `element_create`, `element_update`, or `element_delete` for the requested operation. Resolve real IDs before reuse.
@@ -21,9 +22,9 @@ Use only the remote China MCP configured by this plugin: `https://klingai.com/mc
 - To continue after topping up or a queue rejection, follow [resuming a paused generation](references/tool-workflows.md#resuming-a-paused-generation) before preparing a submission. A top-up notification by itself calls for a balance check only.
 - Sign-out or account switching: act only on an explicit user request, stay on the China endpoint, and complete the client's native MCP OAuth before further Kling calls.
 
-Call only tools present in the live tool list. An attachment alone does not determine its role; clarify only when first frame, tail frame, identity/product reference, editable source, motion source, or style reference would materially change the request.
+Call only tools present in the live tool list. Before new creative routing, obtain the configured connection's complete tool declarations, including all pagination. A search miss, truncated result, or incomplete declaration is not evidence that `skill_catalog` is absent; if complete declarations cannot be obtained, report the limitation and pause routing before bundled creative steps. An attachment alone does not determine its role; clarify only when first frame, tail frame, identity/product reference, editable source, motion source, or style reference would materially change the request.
 
-Read [asset workflows](references/asset-workflows.md) for Elements, the motion library, or uploads. Before generation, follow [capability discovery](references/capability-discovery.md), then [model parameters](references/model-parameters.md), [tool workflows](references/tool-workflows.md), and the [MCP contract](references/mcp-contract.md). Use [prompt examples](references/prompt-examples.md) for creative direction and [troubleshooting](references/troubleshooting.md) after a failure.
+Read [asset workflows](references/asset-workflows.md) for Elements, the motion library, or uploads. Before generation, follow [capability discovery](references/capability-discovery.md), then [model parameters](references/model-parameters.md), [tool workflows](references/tool-workflows.md), and the [MCP contract](references/mcp-contract.md). Use [prompt examples](references/prompt-examples.md) for creative direction only on the local route, and [troubleshooting](references/troubleshooting.md) after a failure.
 
 ## Connection and task identity
 
@@ -54,7 +55,7 @@ Report the returned status, known task number, and effective submitted settings 
 
 ## Quality defaults
 
-Apply only when the user has not specified another choice and the live model supports it:
+Apply only on the local creative route, when the user has not specified another choice and the live model supports it. Remote and bypass routes use their selected settings, subject to the same live execution checks:
 
 - Prefer full-quality models. Use Turbo, fast, or low-cost modes when the user prioritizes drafts, speed, or credit savings.
 - Images: prefer `2k` for normal delivery and `4k` for commercial or crop-heavy work; use `1k` for drafts or speed. Never lower a higher live default.
