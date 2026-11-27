@@ -1,15 +1,17 @@
 ---
 name: kling-ai-generate-video
-description: Write Kling AI / 可灵 video prompts and storyboards, prepare video settings for approval, and submit authorized text-to-video, image-to-video, omni reference, keyframe, or motion-control requests through the Kling AI MCP.
+description: Write Kling AI / 可灵 video prompts and storyboards, prepare video settings including HDR for approval, and submit authorized text-to-video, image-to-video, omni reference, keyframe, or motion-control requests through the Kling AI MCP.
 ---
 
 # Kling AI video generation
 
 Deliver the user's current step. Use the execution workflow only when preparing or submitting generation. The [core Kling Skill](../kling-ai/SKILL.md) owns OAuth, billing, task identity and result handling.
 
+First follow the core [creative workflow router](../kling-ai/references/workflow-routing.md), even when this Skill is invoked directly. Reuse the selected workflow and save continuation state. A loaded remote workflow owns creative guidance; bypass preserves the original plan. The local motion, scene, model-preference, quality, and creative QA rules below apply only to the local route. Shared asset, live-capability/schema, authorization, billing, single-submission, and result checks apply to every generation route.
+
 ## Choose the current step
 
-- **Prompt or storyboard only:** use [motion and shots](references/motion-and-shots.md) to assess existing text or guide new writing. Deliver the requested text. Leave out account queries, uploads, unsolicited submission settings, and invitations to generate.
+- **Prompt or storyboard only:** on the local route, use [motion and shots](references/motion-and-shots.md) to assess existing text or guide new writing; otherwise use the selected remote or bypass route. Deliver the requested text. Leave out model/balance queries, uploads, unsolicited submission settings, and invitations to generate.
 - **Final settings for approval:** discover compatible capabilities, present a complete proposal, and wait for approval.
 - **Authorized generation:** run the workflow below and honor approval already given for those settings.
 - **Continue after a top-up:** follow [resuming a paused generation](../kling-ai/references/tool-workflows.md#resuming-a-paused-generation). Preserve the original settings and reference roles, including any first-frame slot.
@@ -17,17 +19,17 @@ Deliver the user's current step. Use the execution workflow only when preparing 
 
 When preparing generation with a missing required asset, ask only for that asset
 and explain its role. For example, "请发商品图片或可访问的图片链接，我会用它作首帧。"
-Wait for the asset before discovery or upload.
+Wait for the asset before model discovery or upload.
 
-Read [scene patterns](references/scene-patterns.md) for product, advertising, social, or cinematic work when the request needs further creative direction. For Elements, the motion library, or local media, also read the core [asset workflows](../kling-ai/references/asset-workflows.md).
+On the local route, read [scene patterns](references/scene-patterns.md) for product, advertising, social, or cinematic work when the request needs further creative direction. For Elements, the motion library, or local media on any route, also read the core [asset workflows](../kling-ai/references/asset-workflows.md).
 
 ## Workflow
 
-1. **Capture the request.** Record the user's model restriction, duration, ratio, resolution, count, sound, shot intent, and reference roles. Clarify only unresolved choices that materially change the result. Create or reuse the UUIDv7 `taskTraceId` under the core Skill.
+1. **Capture the request.** Record the user's model restriction, duration, ratio, resolution, dynamic range (HDR or SDR), count, sound, shot intent, and reference roles. Clarify only unresolved choices that materially change the result. Create or reuse the UUIDv7 `taskTraceId` under the core Skill.
 2. **Discover candidates.** Follow [capability discovery](../kling-ai/references/capability-discovery.md) and [video routing](references/model-routing.md). Compare `text_to_video` and `omni_ref_video` for text-driven requests, or `image_to_video` and `omni_ref_video` for image-driven requests, when present. Keep text-only omni models eligible even without attachments.
-3. **Match the requirements.** Choose one live tool/model pair that supports the requested model, output settings, sound and input roles. Required silence needs a declared sound-off value or an explicit silent-output guarantee. A required first frame needs a dedicated frame input. Recommend V4 only when an eligible V4 pair was returned. If no pair meets the requirements, explain the conflict and stop.
-4. **Build and verify the request.** Read the selected tool's complete `inputSchema`, using the client's tool discovery if the tool is deferred (`ToolSearch` in Claude Code). Use [model parameters](../kling-ai/references/model-parameters.md) to bind settings such as duration and an explicit first-frame aspect ratio to the request. For each new generation, edit, or variant, read [motion and shots](references/motion-and-shots.md) to assess an existing prompt or write a new one. Reuse it verbatim when it already meets the request. Status queries and approved retries with the same parameters skip prompt review. Prepare media for the selected pair and stop on upload failure. Check the exact top-level model, required prompt and frame slots, and any requested resolution such as `1080p` against the selected model's live enum and conditions.
-5. **Present settings and submit with approval.** Show the selected pair, prompt summary, output settings, shot structure, reference roles and required billing disclosure. Follow the [submission workflow](../kling-ai/references/tool-workflows.md#generation) for the approval, balance check, and single submission. Use the core App or headless result workflow after acceptance. For an invalid first frame or omni reference, follow [upload troubleshooting](../kling-ai/references/troubleshooting.md#upload-or-media-reference-fails).
+3. **Match the requirements.** Choose one live tool/model pair that supports the requested model, output settings, sound and input roles. Required HDR needs a declared HDR mode compatible with the requested resolution. Required silence needs a declared sound-off value or an explicit silent-output guarantee. A required first frame needs a dedicated frame input. Recommend V4 only when an eligible V4 pair was returned. If no pair meets the requirements, explain the conflict and stop.
+4. **Build and verify the request.** Read the selected tool's complete `inputSchema`, using the client's tool discovery if the tool is deferred (`ToolSearch` in Claude Code). Use [model parameters](../kling-ai/references/model-parameters.md) to bind settings such as duration and an explicit first-frame aspect ratio to the request. On the local route, for each new generation, edit, or variant, read [motion and shots](references/motion-and-shots.md) to assess an existing prompt or write a new one. Reuse it verbatim when it already meets the request. Remote routes follow only their loaded creative instructions; bypass, status queries, and approved retries with the same parameters skip local prompt review. Prepare media for the selected pair and stop on upload failure. Check the exact top-level model, required prompt and frame slots, and any requested resolution such as `1080p` against the selected model's live enum and conditions.
+5. **Present settings and submit with approval.** Show the selected pair, prompt summary, output settings including the requested dynamic range and resolution, shot structure, reference roles and required billing disclosure. Follow the [submission workflow](../kling-ai/references/tool-workflows.md#generation) for the approval, balance check, and single submission. Use the core App or headless result workflow after acceptance. For an invalid first frame or omni reference, follow [upload troubleshooting](../kling-ai/references/troubleshooting.md#upload-or-media-reference-fails).
 
 ## Mode rules
 

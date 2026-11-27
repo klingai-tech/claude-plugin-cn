@@ -6,7 +6,7 @@
       version, description, author, homepage, license, `skills`, and
       `mcpServers`.
 - [ ] `.mcp.json` registers exactly one HTTP server named `kling-ai` at
-      `https://kling-ai.prt.kuaishou.com/mcp/plugin` (China).
+      `https://kling-ai.prt.kuaishou.com/mcp` (China).
 - [ ] `kling-ai`, `kling-ai-generate-image`, and `kling-ai-generate-video`
       each have valid `name` and trigger-focused `description` frontmatter.
 - [ ] The main Skill routes creation to the matching generation Skill; all
@@ -17,6 +17,25 @@
 
 ## Behavior
 
+- [ ] All three Skill entry points use the same creative workflow router before
+      applying prompt, scene, model-preference, or quality guidance.
+- [ ] Explicit creative bypass preserves the original prompt and settings, skips
+      both local and remote creative processing, and retains execution checks.
+- [ ] Same-objective continuation keeps the selected source, workflow version,
+      stage, approval, and submission record without catalog reselection.
+- [ ] A missing catalog or successful listing with no match uses the local route;
+      discovery/query/load failure blocks instead. An explicitly required remote
+      workflow is never silently replaced when unavailable.
+- [ ] A loaded remote workflow owns creative guidance without local prompt,
+      model-preference, quality, or creative QA rules being applied alongside it.
+      OAuth, live validation, billing, single submission, and result rules remain.
+- [ ] Prompt-only, status, library, and account requests stay within their scope;
+      catalog discovery does not authorize generation, uploads, or library writes.
+- [ ] Conversation state records the unique selected workflow and current stage,
+      including blocked/partial progress, without secrets or signed URLs. Missing
+      saved remote content/version blocks continuation rather than upgrading it.
+- [ ] Search misses, truncated results, incomplete declarations and discovery failures pause creative routing; only complete declarations can establish an absent catalog.
+- [ ] `npm test` and the isolated routing fixture pass; report host model-access failures separately.
 - [ ] Complete tool discovery includes pagination; video capability queries
       include `omni_ref_video` when present, even for pure-text requests.
 - [ ] Kling 4.0 and Kling 4.0 Flash recommendations match the model returned by

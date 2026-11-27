@@ -6,7 +6,7 @@ Read after [capability discovery](capability-discovery.md). Use the chosen tool/
 
 - Treat the model's arguments and inputs as field allowlists. Satisfy required fields and dependencies; omit undeclared fields and irrelevant optional fields. When there are no inputs, omit `inputs` unless the tool schema requires otherwise.
 - Pass each argument name once and encode numbers, booleans, and JSON arrays as required by the tool schema. Use only exact enum values. Rebuild the request when changing models; do not carry over the previous model's fields.
-- Honor explicit user settings first, then apply the Skill's quality preferences only within legal choices and compatible defaults. Never use prompt text to simulate an unsupported resolution, input, or sound capability. Unsupported required settings need resolution before submission.
+- Honor explicit user settings first, then the selected creative workflow's settings, only within legal choices and compatible defaults. Apply bundled quality/model preferences only on the local route under [workflow routing](workflow-routing.md). Never use prompt text to simulate an unsupported resolution, input, or sound capability. Unsupported required settings need resolution before submission.
 - Bind each explicit setting to its declared argument or verify that the model fixes it at the requested value. Duration in the prompt alone leaves the duration setting at its default.
 - Pass an explicit aspect ratio when the selected model supports it with the given inputs, including a first frame. If no ratio was requested, follow the live rule for preserving the first frame or choose a legal ratio from the destination or compatible default. Use automatic ratio only with compatible inputs. If the model has no ratio field, check that its fixed behavior satisfies any required ratio.
 - Duration must accommodate action, dialogue, pauses, and the ending within live limits. Do not delete dialogue, speed it up, or split it into multiple paid tasks to hide a conflict.
@@ -34,6 +34,13 @@ declared. Do not nest those settings inside the prompt item or encode the whole
 request as its text. Keep reference inputs in the outer schema's input slots.
 Before sending, compare every explicit requirement with the actual serialized
 value or supported input; build the result summary from those values afterward.
+
+### HDR video output
+
+- When the user requests HDR output, the selected pair must declare `hdr` with the value `hdr`. Pass `{"name": "hdr", "value": "hdr"}` in `arguments` and explicitly pass a compatible `resolution` of `1080p` or `4k`. Prefer 1080p when the user leaves the resolution open and the account supports it.
+- The declared default `none` leaves HDR off. Preserve that default when HDR is unspecified. Treat lighting and contrast cues in the prompt as visual style, and use the `hdr` argument for the file's output mode.
+- If the user requests both HDR and 720p, or the requested model cannot deliver HDR at the requested resolution, explain the conflict and get approval for compatible settings before submission.
+- Apply input dynamic-range constraints independently. In Kling 4.0 omni reference, direct `video_*` inputs require SDR even for an HDR output. Ask for an SDR version if a required direct reference is HDR.
 
 ## References and Elements
 

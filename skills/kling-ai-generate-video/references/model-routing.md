@@ -17,8 +17,10 @@ Both variants support text-to-video. Use the current account's live model declar
 
 | Model | Image-to-video frame roles | Omni reference inputs | Output |
 | --- | --- | --- | --- |
-| Kling 4.0 | First, last, and intermediate keyframes | Images, videos, audio, and Elements | 3–30 seconds at 720p, with 1080p for eligible accounts |
+| Kling 4.0 | First, last, and intermediate keyframes | Images, videos, audio, and Elements | 3–30 seconds at 720p, with 1080p and 4K for eligible accounts |
 | Kling 4.0 Flash | Single first frame | Images, videos, and Elements | 3–20 seconds at 720p |
+
+The China MCP declares HDR output for `kling-video-v4_0` on `text_to_video`, `image_to_video`, and `omni_ref_video` at 1080p or 4K, subject to live account access. Kling 4.0 Flash currently offers 720p only. Apply the [HDR request rules](../../kling-ai/references/model-parameters.md#hdr-video-output) after selecting a compatible pair.
 
 Both omni-reference variants support smart shot splitting, synchronized sound generation, and retention of source-video audio. Choose at most one of the two sound output options. A separate audio reference requires the selected model to declare an audio input slot.
 

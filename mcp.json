@@ -3,7 +3,7 @@
   "mcpServers": {
     "kling-ai": {
       "type": "streamable-http",
-      "url": "https://kling-ai.prt.kuaishou.com/mcp/plugin"
+      "url": "https://kling-ai.prt.kuaishou.com/mcp"
     }
   }
 }
